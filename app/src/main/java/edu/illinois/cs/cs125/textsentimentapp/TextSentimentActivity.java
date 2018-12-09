@@ -2,6 +2,8 @@ package edu.illinois.cs.cs125.textsentimentapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -15,14 +17,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.Map;
 
 public class TextSentimentActivity extends AppCompatActivity {
 
     private static final String SENTIMENT_ANALYSIS_URL =
-            "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
+            "https://eastus2.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
 
     // BEFORE COMPILING APP, SET API KEY
     // NEVER COMMIT KEY TO GIT
@@ -30,14 +31,17 @@ public class TextSentimentActivity extends AppCompatActivity {
 
     private final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-    // TODO: add correct id
-    final TextView textView = (TextView) findViewById(0);
-
+    final TextView textView = (TextView) findViewById(R.id.sentiment);
+    final EditText editText = (EditText) findViewById(R.id.editText);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_sentiment);
+    }
+
+    public void onClick(View view) {
+        getTextSentiment(editText.getText().toString());
     }
 
     /**
@@ -88,7 +92,7 @@ public class TextSentimentActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers =  super.getHeaders();
-                headers.put("api-key-header-name", API_KEY);
+                headers.put("Ocp-Apim-Subscription-Key", API_KEY);
                 return headers;
             }
         };
