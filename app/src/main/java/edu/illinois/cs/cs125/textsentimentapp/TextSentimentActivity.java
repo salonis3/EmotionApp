@@ -7,10 +7,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -18,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TextSentimentActivity extends AppCompatActivity {
@@ -27,17 +33,33 @@ public class TextSentimentActivity extends AppCompatActivity {
 
     // BEFORE COMPILING APP, SET API KEY
     // NEVER COMMIT KEY TO GIT
-    private static final String API_KEY = "hunter2";
+    private static final String API_KEY = "4bc070402f1a41f8aec5dc56a78bb90d";
 
-    private final RequestQueue requestQueue = Volley.newRequestQueue(this);
+    //private final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-    final TextView textView = (TextView) findViewById(R.id.sentiment);
-    final EditText editText = (EditText) findViewById(R.id.editText);
+
+    private TextView textView;
+    private EditText editText;
+    RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_sentiment);
+
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+        textView = (TextView) findViewById(R.id.sentiment);
+        editText = (EditText) findViewById(R.id.editText);
+
+// Instantiate the RequestQueue with the cache and network.
+        mRequestQueue = new RequestQueue(cache, network);
+
+// Start the queue
+        mRequestQueue.start();
     }
 
     public void onClick(View view) {
@@ -78,7 +100,9 @@ public class TextSentimentActivity extends AppCompatActivity {
                             sentiment = Double.NaN;
                         }
                         textView.setText(Double.toString(sentiment));
+
                     }
+
 
 
                 },
@@ -91,12 +115,12 @@ public class TextSentimentActivity extends AppCompatActivity {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers =  super.getHeaders();
+                Map<String, String> headers =  new HashMap<String, String>();
                 headers.put("Ocp-Apim-Subscription-Key", API_KEY);
                 return headers;
             }
         };
 
-        requestQueue.add(textAnalysisRequest);
+        mRequestQueue.add(textAnalysisRequest);
     }
 }
