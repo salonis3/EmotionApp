@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="text|textMultiLine"
-        android:text="Lorem ipsum."
+        android:text="Insert Text Here- You'll receive a score between 0 and 1. 1 being happy and 0 being upset."
         app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -41,6 +41,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="0"
+        android:textColorLink="@color/colorAccent"
+        android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/submitButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />

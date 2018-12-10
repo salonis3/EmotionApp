@@ -1,5 +1,6 @@
 package edu.illinois.cs.cs125.textsentimentapp;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -122,5 +123,6 @@ public class TextSentimentActivity extends AppCompatActivity {
         };
 
         mRequestQueue.add(textAnalysisRequest);
+        (Color.GREEN)
     }
 }
