@@ -1,5 +1,7 @@
 package edu.illinois.cs.cs125.textsentimentapp;
 
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +42,7 @@ public class TextSentimentActivity extends AppCompatActivity {
 
     private TextView textView;
     private EditText editText;
+    private ConstraintLayout constraintLayout;
     RequestQueue mRequestQueue;
 
     @Override
@@ -54,6 +57,7 @@ public class TextSentimentActivity extends AppCompatActivity {
         Network network = new BasicNetwork(new HurlStack());
         textView = (TextView) findViewById(R.id.sentiment);
         editText = (EditText) findViewById(R.id.editText);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
 // Instantiate the RequestQueue with the cache and network.
         mRequestQueue = new RequestQueue(cache, network);
@@ -100,6 +104,12 @@ public class TextSentimentActivity extends AppCompatActivity {
                             sentiment = Double.NaN;
                         }
                         textView.setText(Double.toString(sentiment));
+                        if (sentiment >= 0.5) {
+                            constraintLayout.setBackgroundColor(Color.rgb(225,0,159));
+                        }
+                        if (sentiment < 0.5) {
+                            constraintLayout.setBackgroundColor(Color.rgb(11,142,54));
+                        }
 
 
                     }
