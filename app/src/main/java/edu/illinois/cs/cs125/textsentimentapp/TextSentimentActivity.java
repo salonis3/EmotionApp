@@ -103,14 +103,14 @@ public class TextSentimentActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             sentiment = Double.NaN;
                         }
-                        textView.setText(Double.toString(sentiment));
-                        if (sentiment >= 0.9) {
+                        textView.setText(Double.toString(sentiment*100));
+                        if (sentiment >= 0.8) {
                             constraintLayout.setBackgroundColor(Color.rgb(225,0,159));
                         }
                         if (sentiment < 0.3) {
                             constraintLayout.setBackgroundColor(Color.rgb(17,98,188));
                         }
-                        if (sentiment < 0.9 && sentiment > 0.3) {
+                        if (sentiment < 0.8 && sentiment > 0.3) {
                             constraintLayout.setBackgroundColor(Color.rgb(225, 225, 0));
                         }
 
